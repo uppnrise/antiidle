@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Project Information -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.upp</groupId>
+    <artifactId>antiidle</artifactId>
+    <version>1.0.0.0</version>
+    <name>AntiIdle</name>
+    <description>A Java application for preventing idle time.</description>
+    <url>https://github.com/uppnrise/antiidle</url>
+    
+    <!-- Properties -->
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <launch4j.version>2.5.0</launch4j.version>
+    </properties>
+    
+    <!-- Dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Other dependencies -->
+    </dependencies>
+    
+    <!-- Build Configuration -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            
+            <!-- Launch4j Maven Plugin -->
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>${launch4j.version}</version>
+                <executions>
+                    <execution>
+                        <id>l4j-create-executable</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Output File Configuration -->
+                            <outfile>target/AntiIdle.exe</outfile>
+                            
+                            <!-- Jar File Configuration -->
+                            <jar>target/${project.artifactId}-${project.version}.jar</jar>
+                            
+                            <!-- Main Class Configuration -->
+                            <mainClass>com.upp.AntiIdleGUI</mainClass>
+                            
+                            <!-- JRE Configuration -->
+                            <jre>
+                                <minVersion>1.8.0</minVersion>
+                                <!-- Additional JRE options if needed -->
+                            </jre>
+                            
+                            <!-- Optional: Application Information -->
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.description}</fileDescription>
+                                <copyright>Copyright © ${project.organization.name}</copyright>
+                                <productVersion>${project.version}</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <internalName>AntiIdle</internalName>
+                            </versionInfo>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+</project>
