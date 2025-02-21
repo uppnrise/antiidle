@@ -11,7 +11,7 @@
     <name>AntiIdle</name>
     <description>A Java application for preventing idle time.</description>
     <url>https://github.com/uppnrise/antiidle</url>
-    
+
     <!-- Properties -->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <launch4j.version>2.5.0</launch4j.version>
     </properties>
-    
+
     <!-- Dependencies -->
     <dependencies>
         <dependency>
@@ -30,7 +30,7 @@
         </dependency>
         <!-- Other dependencies -->
     </dependencies>
-    
+
     <!-- Build Configuration -->
     <build>
         <plugins>
@@ -43,7 +43,7 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-            
+
             <!-- Launch4j Maven Plugin -->
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
@@ -59,19 +59,17 @@
                         <configuration>
                             <!-- Output File Configuration -->
                             <outfile>target/AntiIdle.exe</outfile>
-                            
+
                             <!-- Jar File Configuration -->
                             <jar>target/${project.artifactId}-${project.version}.jar</jar>
-                            
-                            <!-- Main Class Configuration -->
-                            <mainClass>com.upp.AntiIdleGUI</mainClass>
-                            
+
+
                             <!-- JRE Configuration -->
                             <jre>
                                 <minVersion>1.8.0</minVersion>
                                 <!-- Additional JRE options if needed -->
                             </jre>
-                            
+
                             <!-- Optional: Application Information -->
                             <versionInfo>
                                 <fileVersion>1.0.0.0</fileVersion>
@@ -90,5 +88,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>
