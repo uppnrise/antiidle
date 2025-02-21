@@ -2,11 +2,7 @@ package com.upp;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 /**
  * A simple GUI application for simulating anti-idle behavior.
@@ -42,22 +38,27 @@ public class AntiIdleGUI {
     void startIdle() {
         if (idleThread == null || !idleThread.isAlive()) {
             idleThread = new Thread(() -> {
-                while (!Thread.currentThread().isInterrupted()) {
-                    robot.mouseMove(0, 0);
-                    robot.delay(1000);
-                    robot.mouseMove(1, 0);
-                    robot.delay(1000);
-                    robot.mouseMove(0, 0);
+                try {
+                    while (!Thread.currentThread().isInterrupted()) {
+                        robot.mouseMove(0, 0);
+                        robot.delay(1000);
+                        robot.mouseMove(1, 0);
+                        robot.delay(1000);
+                        robot.mouseMove(0, 0);
 
-                    robot.keyPress(KeyEvent.VK_SHIFT);
-                    robot.delay(1000);
-                    robot.keyRelease(KeyEvent.VK_SHIFT);
+                        robot.keyPress(KeyEvent.VK_SHIFT);
+                        robot.delay(1000);
+                        robot.keyRelease(KeyEvent.VK_SHIFT);
 
-                    try {
-                        Thread.sleep(300000); // 5 minutes
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+                        for (int i = 0; i < 300; i++) { // Check for interruption every second
+                            if (Thread.currentThread().isInterrupted()) {
+                                throw new InterruptedException();
+                            }
+                            Thread.sleep(1000);
+                        }
                     }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             });
             idleThread.start();
@@ -67,6 +68,11 @@ public class AntiIdleGUI {
     void stopIdle() {
         if (idleThread != null && idleThread.isAlive()) {
             idleThread.interrupt();
+            try {
+                idleThread.join(); // Wait for the thread to finish
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
