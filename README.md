@@ -15,9 +15,44 @@ The **AntiIdle** project is a simple Java application that simulates user activi
 
 ## Usage
 
-1. The GUI will appear. Click the **Start Idle** button to begin the idle simulation.
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/uppnrise/antiidle.git
+    cd antiidle
+    ```
 
-2. To stop the simulation, click the **Stop Idle** button.
+2. Build the project using Maven:
+    ```sh
+    mvn clean install
+    ```
+
+3. Run the application:
+    ```sh
+    java -jar target/antiidle-1.0.0.0.jar
+    ```
+
+4. The GUI will appear. Click the **Start Idle** button to begin the idle simulation.
+
+5. To stop the simulation, click the **Stop Idle** button.
+
+## Code Explanation
+
+### Main Class: `AntiIdleGUI`
+
+The `AntiIdleGUI` class is the main class of the application. It sets up the GUI and handles the start and stop actions for the idle simulation.
+
+### Algorithm Explanation
+
+1. **Initialization**:
+    - The `AntiIdleGUI` constructor initializes the `Robot` instance and sets up the GUI with `JFrame` and `JButton` components.
+
+2. **Start Idle Simulation**:
+    - The `startIdle` method creates and starts a new thread if no thread is currently running.
+    - The thread moves the mouse cursor and simulates key presses in a loop to prevent the system from going idle.
+    - The loop includes a delay and a sleep period to simulate user activity at regular intervals.
+
+3. **Stop Idle Simulation**:
+    - The `stopIdle` method interrupts the running thread, stopping the idle simulation.
 
 ## Notes
 
