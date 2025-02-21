@@ -44,7 +44,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Launch4j Maven Plugin -->
+            <!-- Launch4j Plugin -->
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
@@ -57,31 +57,20 @@
                             <goal>launch4j</goal>
                         </goals>
                         <configuration>
-                            <!-- Output File Configuration -->
                             <outfile>target/AntiIdle.exe</outfile>
-
-                            <!-- Jar File Configuration -->
                             <jar>target/${project.artifactId}-${project.version}.jar</jar>
-
-
-                            <!-- JRE Configuration -->
                             <jre>
                                 <minVersion>1.8.0</minVersion>
-                                <!-- Additional JRE options if needed -->
                             </jre>
-
-                            <!-- Optional: Application Information -->
                             <versionInfo>
                                 <fileVersion>1.0.0.0</fileVersion>
                                 <txtFileVersion>${project.version}</txtFileVersion>
                                 <fileDescription>${project.description}</fileDescription>
-                                <copyright>Copyright © ${project.organization.name}</copyright>
                                 <productVersion>${project.version}</productVersion>
                                 <txtProductVersion>${project.version}</txtProductVersion>
                                 <productName>${project.name}</productName>
                                 <internalName>AntiIdle</internalName>
                             </versionInfo>
-
                         </configuration>
                     </execution>
                 </executions>
