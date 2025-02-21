@@ -2,6 +2,8 @@
 
 The **AntiIdle** project is a simple Java application that simulates user activity to prevent system idle sleep. It includes a graphical user interface (GUI) with buttons to start and stop the idle simulation.
 
+![AntiIdle Screenshot from Mac](antiidle-mac.png)
+
 ## Features
 
 - Moves the mouse cursor periodically to prevent system idle sleep.
