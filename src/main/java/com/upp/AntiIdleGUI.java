@@ -38,27 +38,29 @@ public class AntiIdleGUI {
     void startIdle() {
         if (idleThread == null || !idleThread.isAlive()) {
             idleThread = new Thread(() -> {
-                try {
-                    while (!Thread.currentThread().isInterrupted()) {
-                        robot.mouseMove(0, 0);
-                        robot.delay(1000);
-                        robot.mouseMove(1, 0);
-                        robot.delay(1000);
-                        robot.mouseMove(0, 0);
+                synchronized (this) {
+                    try {
+                        while (!Thread.currentThread().isInterrupted()) {
+                            robot.mouseMove(0, 0);
+                            robot.delay(1000);
+                            robot.mouseMove(1, 0);
+                            robot.delay(1000);
+                            robot.mouseMove(0, 0);
 
-                        robot.keyPress(KeyEvent.VK_SHIFT);
-                        robot.delay(1000);
-                        robot.keyRelease(KeyEvent.VK_SHIFT);
+                            robot.keyPress(KeyEvent.VK_SHIFT);
+                            robot.delay(1000);
+                            robot.keyRelease(KeyEvent.VK_SHIFT);
 
-                        for (int i = 0; i < 300; i++) { // Check for interruption every second
-                            if (Thread.currentThread().isInterrupted()) {
-                                throw new InterruptedException();
+                            for (int i = 0; i < 300; i++) { // Check for interruption every second
+                                if (Thread.currentThread().isInterrupted()) {
+                                    throw new InterruptedException();
+                                }
+                                wait(1000); // Wait for 1 second
                             }
-                            Thread.sleep(1000);
                         }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                     }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
                 }
             });
             idleThread.start();
