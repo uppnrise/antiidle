@@ -1,70 +1,159 @@
 # AntiIdle
 
-The **AntiIdle** project is a simple Java application that simulates user activity to prevent system idle sleep. It includes a graphical user interface (GUI) with buttons to start and stop the idle simulation.
+[![Java](https://img.shields.io/badge/Java-21+-orange.svg)](https://www.oracle.com/java/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+[![Build](https://img.shields.io/badge/Build-Gradle-green.svg)](https://gradle.org/)
+
+The **AntiIdle** project is a lightweight Java application that simulates user activity to prevent system idle sleep. It features a simple graphical user interface (GUI) with intuitive controls for managing the idle prevention service.
 
 ![AntiIdle Screenshot from Mac](antiidle-mac.png)
 
-## Features
+## 🚀 Features
 
-- Moves the mouse cursor periodically to prevent system idle sleep.
-- Simulates key presses to maintain system activity.
-- Provides a user-friendly GUI interface for controlling the idle simulation.
+- **Smart Mouse Movement**: Intelligently moves the mouse cursor slightly from its current position to prevent system idle sleep
+- **Keyboard Simulation**: Simulates harmless key presses (Shift key) to maintain system activity  
+- **User-Friendly GUI**: Clean and simple interface with Start/Stop controls
+- **Optimized Intervals**: 30-second activity intervals for efficient idle prevention
+- **Cross-Platform**: Works on Windows, macOS, and Linux systems with Java support
+- **Lightweight**: Minimal resource usage and system impact
 
-## Requirements
+## 📋 Requirements
 
-- Java Development Kit (JDK) 17 or higher.
-- A system with AWT and Swing support.
+- **Java Development Kit (JDK) 21 or higher**
+- System with AWT and Swing support
+- Screen access permissions (may be required on macOS/Linux)
 
-## Usage
+## 🛠️ Installation & Usage
 
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/uppnrise/antiidle.git
-    cd antiidle
-    ```
+### Method 1: Using Pre-built JAR
 
-2. Build the project using Maven:
-    ```sh
-    mvn clean install
-    ```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/uppnrise/antiidle.git
+   cd antiidle
+   ```
 
-3. Run the application:
-    ```sh
-    java -jar target/antiidle-1.0.0.0.jar
-    ```
+2. **Build the project:**
+   ```bash
+   ./gradlew build
+   ```
 
-4. The GUI will appear. Click the **Start Idle** button to begin the idle simulation.
+3. **Run the application:**
+   ```bash
+   java -jar build/libs/antiidle-1.1.0.jar
+   ```
 
-5. To stop the simulation, click the **Stop Idle** button.
+### Method 2: Using Application Scripts
 
-## Code Explanation
+1. Build the project as above
+2. Run using the generated scripts:
+   ```bash
+   # On macOS/Linux:
+   ./build/scripts/antiidle
+   
+   # On Windows:
+   build\scripts\antiidle.bat
+   ```
 
-### Main Class: `AntiIdleGUI`
+### Using the Application
 
-The `AntiIdleGUI` class is the main class of the application. It sets up the GUI and handles the start and stop actions for the idle simulation.
+1. **Start the application** - The GUI window will appear
+2. **Click "Start Idle"** - Begins the idle prevention simulation
+3. **Click "Stop Idle"** - Stops the simulation
+4. **Close the window** - Exits the application
 
-### Algorithm Explanation
+## 🔧 Technical Details
 
-1. **Initialization**:
-    - The `AntiIdleGUI` constructor initializes the `Robot` instance and sets up the GUI with `JFrame` and `JButton` components.
+### Algorithm Overview
 
-2. **Start Idle Simulation**:
-    - The `startIdle` method creates and starts a new thread if no thread is currently running.
-    - The thread moves the mouse cursor and simulates key presses in a loop to prevent the system from going idle.
-    - The loop includes a delay and a sleep period to simulate user activity at regular intervals.
+1. **Initialization**: Creates a `Robot` instance for system input simulation
+2. **Activity Simulation**: 
+   - Detects current mouse position
+   - Moves mouse 1 pixel and back to simulate natural movement
+   - Presses and releases Shift key briefly
+   - Waits 30 seconds before repeating
+3. **Thread Management**: Uses separate thread for background operation
+4. **Graceful Shutdown**: Properly handles thread interruption and cleanup
 
-3. **Stop Idle Simulation**:
-    - The `stopIdle` method interrupts the running thread, stopping the idle simulation.
+### Architecture
 
-## Notes
+- **Main Class**: `AntiIdleGUI` - Handles GUI and core functionality
+- **Threading**: Background thread for non-blocking idle simulation
+- **Input Simulation**: Java AWT Robot for cross-platform input events
 
-- Ensure that your system supports the `Robot` class functionalities used for simulating input events.
-- This application is intended for educational purposes to demonstrate basic GUI programming and threading in Java.
+## 🧪 Testing
 
-## Contributing
+Run the test suite:
+```bash
+./gradlew test
+```
 
-Contributions are welcome! If you have suggestions, improvements, or bug fixes, please feel free to submit a pull request.
+The project includes unit tests for:
+- Thread lifecycle management
+- GUI button interactions
+- Start/stop functionality
 
-## License
+## 🔒 Permissions
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+### macOS
+You may need to grant accessibility permissions:
+1. Go to **System Preferences** → **Security & Privacy** → **Privacy**
+2. Select **Accessibility** from the left panel
+3. Add your terminal application or Java to the allowed applications
+
+### Linux
+Ensure your user has access to input devices (usually automatic).
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Development Setup
+
+1. Clone the repository
+2. Import into your favorite IDE (IntelliJ IDEA, Eclipse, VS Code)
+3. Ensure Java 21+ is configured
+4. Run `./gradlew build` to build and test
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Application won't start on macOS:**
+- Grant accessibility permissions as described above
+- Ensure Java 21+ is installed: `java -version`
+
+**Mouse movements not working:**
+- Check if screen recording permissions are granted
+- Verify the application has input access rights
+
+**Build failures:**
+- Ensure Gradle is installed or use the included wrapper: `./gradlew --version`
+- Check Java version compatibility: `java -version`
+
+### Reporting Issues
+
+Please report bugs by [opening an issue](https://github.com/uppnrise/antiidle/issues) with:
+- Operating system and version
+- Java version (`java -version`)
+- Steps to reproduce the issue
+- Error messages (if any)
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## ⚠️ Disclaimer
+
+This application is intended for legitimate use cases such as:
+- Preventing screensavers during presentations
+- Keeping systems active during long-running tasks
+- Maintaining remote desktop connections
+
+Please use responsibly and in accordance with your organization's policies.
