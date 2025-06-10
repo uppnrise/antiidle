@@ -1,0 +1,40 @@
+# Default AntiIdle Configuration
+# This file contains the default settings for AntiIdle application.
+# Users can customize these settings by creating their own configuration file.
+
+activity:
+  # Interval between idle prevention actions (in seconds)
+  interval_seconds: 30
+  
+  # Mouse movement settings
+  mouse_movement_enabled: true
+  mouse_movement_distance: 1
+  
+  # Keyboard simulation settings
+  keyboard_simulation_enabled: true
+  simulation_key: "SHIFT"
+  key_press_duration_ms: 100
+
+gui:
+  # GUI appearance and behavior
+  start_minimized: false
+  minimize_to_tray: true
+  show_notifications: true
+  dark_mode: false
+  
+  # Window position (-1 means center on screen)
+  window_position_x: -1
+  window_position_y: -1
+
+system:
+  # System integration settings
+  auto_start: false
+  start_on_boot: false
+  check_for_updates: true
+
+logging:
+  # Logging configuration
+  log_level: "INFO"
+  log_to_file: true
+  max_log_file_size_mb: 10
+  keep_log_files: 5
