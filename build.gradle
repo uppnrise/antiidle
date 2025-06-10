@@ -1,0 +1,228 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'distribution'
+    id 'checkstyle'
+    id 'jacoco'
+    id 'com.github.spotbugs' version '6.0.7'
+}
+
+group = 'com.upp'
+version = '1.1.0'
+description = 'A Java application for preventing idle time'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+application {
+    mainClass = 'com.upp.AntiIdleGUI'
+    applicationName = 'antiidle'
+    applicationDefaultJvmArgs = [
+        '-Djava.awt.headless=false',
+        '-Dapple.awt.UIElement=true'
+    ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Main dependencies
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'ch.qos.logback:logback-classic:1.4.8'
+    
+    // Test dependencies
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.mockito:mockito-core:5.4.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
+    
+    // SpotBugs annotations
+    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+    
+    systemProperties = [
+        'java.awt.headless': 'true'
+    ]
+    
+    // Increase timeout for GUI tests
+    timeout = Duration.ofMinutes(5)
+}
+
+jar {
+    archiveFileName = "${project.name}-${project.version}.jar"
+    
+    manifest {
+        attributes(
+            'Main-Class': application.mainClass,
+            'Implementation-Title': project.description,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'Burhanettin Nacar',
+            'Built-By': System.getProperty('user.name'),
+            'Built-Date': new Date().toString(),
+            'Built-JDK': System.getProperty('java.version')
+        )
+    }
+}
+
+// Create fat JAR
+tasks.register('fatJar', Jar) {
+    group = 'build'
+    description = 'Creates a fat JAR with all dependencies'
+    
+    archiveFileName = "${project.name}-${project.version}-all.jar"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
+    manifest {
+        attributes(
+            'Main-Class': application.mainClass,
+            'Implementation-Title': project.description,
+            'Implementation-Version': project.version
+        )
+    }
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+
+// Distribution configuration
+distributions {
+    main {
+        distributionBaseName = project.name
+        contents {
+            from(fatJar)
+            from('README.md', 'LICENSE.md', 'CHANGELOG.md')
+        }
+    }
+}
+
+// Checkstyle configuration
+checkstyle {
+    toolVersion = '10.12.1'
+    configFile = file('config/checkstyle/checkstyle.xml')
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+// SpotBugs configuration
+spotbugs {
+    ignoreFailures = false
+    excludeFilter = file('config/spotbugs/exclude.xml')
+}
+
+spotbugsMain {
+    reports {
+        html {
+            required = true
+            outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.html")
+        }
+        xml {
+            required = true
+            outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.xml")
+        }
+    }
+}
+
+// JaCoCo configuration
+jacoco {
+    toolVersion = '0.8.10'
+}
+
+jacocoTestReport {
+    dependsOn test
+    
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+    
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                '**/Main.class'
+            ])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.7
+            }
+        }
+    }
+}
+
+// Custom tasks
+tasks.register('runGui') {
+    group = 'application'
+    description = 'Runs the AntiIdle GUI application'
+    dependsOn 'classes'
+    
+    doLast {
+        javaexec {
+            classpath = sourceSets.main.runtimeClasspath
+            mainClass = application.mainClass
+            systemProperty 'java.awt.headless', 'false'
+        }
+    }
+}
+
+tasks.register('createStartScripts', CreateStartScripts) {
+    group = 'distribution'
+    description = 'Creates start scripts for the application'
+    
+    outputDir = file('scripts')
+    mainClass = application.mainClass
+    applicationName = 'antiidle'
+    classpath = configurations.runtimeClasspath + files(jar.archiveFile)
+    
+    doLast {
+        // Customize scripts if needed
+        def unixScript = file("scripts/${applicationName}")
+        def windowsScript = file("scripts/${applicationName}.bat")
+        
+        if (unixScript.exists()) {
+            def text = unixScript.text
+            text = text.replace('java.awt.headless=true', 'java.awt.headless=false')
+            unixScript.text = text
+        }
+        
+        if (windowsScript.exists()) {
+            def text = windowsScript.text
+            text = text.replace('java.awt.headless=true', 'java.awt.headless=false')
+            windowsScript.text = text
+        }
+    }
+}
+
+// Ensure fat JAR is built with main build
+build.dependsOn fatJar
+distZip.dependsOn createStartScripts
+distTar.dependsOn createStartScripts
+
+// Clean up
+clean {
+    delete 'scripts'
+}

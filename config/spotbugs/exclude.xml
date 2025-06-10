@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- Exclude generated classes -->
+    <Match>
+        <Package name="~.*\.generated\..*"/>
+    </Match>
+    
+    <!-- Exclude test classes from certain checks -->
+    <Match>
+        <Class name="~.*Test"/>
+        <Bug pattern="DM_DEFAULT_ENCODING"/>
+    </Match>
+    
+    <!-- Allow System.exit in main method -->
+    <Match>
+        <Class name="com.upp.AntiIdleGUI"/>
+        <Method name="main"/>
+        <Bug pattern="DM_EXIT"/>
+    </Match>
+    
+    <!-- Allow GUI event dispatching -->
+    <Match>
+        <Class name="com.upp.AntiIdleGUI"/>
+        <Bug pattern="SW_SWING_METHODS_INVOKED_IN_SWING_THREAD"/>
+    </Match>
+    
+    <!-- Allow Robot usage for input simulation -->
+    <Match>
+        <Class name="com.upp.core.ActivitySimulator"/>
+        <Bug pattern="SE_BAD_FIELD"/>
+    </Match>
+    
+    <!-- Allow configuration objects to expose internal representation -->
+    <Match>
+        <Class name="~com\.upp\.config\.ConfigurationManager.*"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    
+    <Match>
+        <Class name="~com\.upp\.config\.ConfigurationManager.*"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    
+    <!-- Allow constructor to throw exceptions for initialization -->
+    <Match>
+        <Class name="com.upp.AntiIdleGUI"/>
+        <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+    </Match>
+    
+    <Match>
+        <Class name="com.upp.core.ActivitySimulator"/>
+        <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+    </Match>
+</FindBugsFilter>
