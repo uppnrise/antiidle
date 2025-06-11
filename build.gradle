@@ -46,7 +46,7 @@ dependencies {
     testImplementation 'org.awaitility:awaitility:4.2.0'
     
     // SpotBugs annotations
-    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
+    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.9.3'
 }
 
 tasks.named('test') {
