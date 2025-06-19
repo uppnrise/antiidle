@@ -8,6 +8,10 @@ on:
   release:
     types: [ published ]
 
+permissions:
+  checks: write
+  contents: read
+
 jobs:
   test-and-quality:
     name: Test and Code Quality
