@@ -24,6 +24,22 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
+    - name: Setup Gradle Wrapper
+      run: |
+        # Create the gradle/wrapper directory if it doesn't exist
+        mkdir -p gradle/wrapper
+        # Download the gradle-wrapper.jar file
+        curl -o gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar
+        # Create or update the gradle-wrapper.properties file
+        echo "distributionBase=GRADLE_USER_HOME" > gradle/wrapper/gradle-wrapper.properties
+        echo "distributionPath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        echo "distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-bin.zip" >> gradle/wrapper/gradle-wrapper.properties
+        echo "networkTimeout=10000" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStoreBase=GRADLE_USER_HOME" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStorePath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        # Make the gradlew script executable
+        chmod +x gradlew
+
     - name: Run tests
       run: ./gradlew test
 
@@ -68,6 +84,22 @@ jobs:
         java-version: 21
         distribution: 'temurin'
         cache: gradle
+
+    - name: Setup Gradle Wrapper
+      run: |
+        # Create the gradle/wrapper directory if it doesn't exist
+        mkdir -p gradle/wrapper
+        # Download the gradle-wrapper.jar file
+        curl -o gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar
+        # Create or update the gradle-wrapper.properties file
+        echo "distributionBase=GRADLE_USER_HOME" > gradle/wrapper/gradle-wrapper.properties
+        echo "distributionPath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        echo "distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-bin.zip" >> gradle/wrapper/gradle-wrapper.properties
+        echo "networkTimeout=10000" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStoreBase=GRADLE_USER_HOME" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStorePath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        # Make the gradlew script executable
+        chmod +x gradlew
 
     - name: Build application and packages
       run: ./gradlew build distZip distTar
