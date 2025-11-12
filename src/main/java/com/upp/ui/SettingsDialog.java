@@ -3,9 +3,24 @@ package com.upp.ui;
 import com.upp.config.ConfigurationManager;
 import com.upp.i18n.I18nManager;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.Locale;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 /**
  * Modern settings dialog with tabbed interface.
@@ -295,7 +310,7 @@ public class SettingsDialog extends JDialog {
         gui.setShowNotifications(showNotificationsCheck.isSelected());
         
         configManager.saveConfiguration(config);
-        settingsChanged = True;
+        settingsChanged = true;
         
         JOptionPane.showMessageDialog(this,
             "Settings saved successfully!",
