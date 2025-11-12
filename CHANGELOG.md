@@ -5,6 +5,71 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025-11-12
+
+### Added
+- **Modern FlatLaf UI Framework**:
+  - Beautiful, professional FlatLaf Look and Feel (v3.5.4)
+  - Support for Light, Dark, and System Default themes
+  - Automatic theme detection based on system preferences
+  - Smooth, modern appearance across all platforms
+- **Comprehensive Internationalization (i18n)**:
+  - Full multi-language support framework using Java ResourceBundle
+  - Complete English (en) translation
+  - Complete German (de) translation
+  - Runtime language switching capability
+  - Persistent language preference storage
+  - Extensible architecture for adding more languages
+- **Advanced Settings Dialog**:
+  - Tabbed interface with Activity, GUI, and System tabs
+  - Live configuration editing with immediate save
+  - Intuitive controls with spinners, checkboxes, and combo boxes
+  - Activity settings: interval, mouse distance, keyboard simulation
+  - GUI settings: language, theme, tray, notifications
+  - System settings: auto-start, boot integration, update checking
+- **Enhanced Menu System**:
+  - File menu: Settings access and application exit
+  - Language menu: Quick language switching (English/German)
+  - Help menu: About dialog with application information
+  - Keyboard shortcuts and mnemonics
+- **Improved User Experience**:
+  - Tooltips on all interactive elements
+  - Better visual feedback and status indicators
+  - Larger, more readable fonts
+  - Improved spacing and layout
+  - Persistent window position
+  - About dialog with version and licensing information
+
+### Changed
+- **Dependency Updates** (all to latest stable versions):
+  - Jackson: 2.15.2 → 2.18.2
+  - SLF4J: 2.0.7 → 2.0.16
+  - Logback: 1.4.8 → 1.5.15
+  - JUnit: 5.10.0 → 5.11.4
+  - Mockito: 5.4.0 → 5.14.2
+  - SpotBugs: 6.0.7 → 6.0.27
+  - Checkstyle: 10.12.1 → 10.21.1
+  - JaCoCo: 0.8.10 → 0.8.12
+- **Architecture Improvements**:
+  - New I18nManager singleton for centralized localization
+  - Separate SettingsDialog class for better code organization
+  - Enhanced ConfigurationManager with language and theme support
+  - Improved separation of concerns in GUI code
+- **Version**: Bumped to 2.0.0 to reflect major modernization
+- **Documentation**: Comprehensive README update with new features and configuration guide
+
+### Fixed
+- All Checkstyle violations resolved
+- All SpotBugs warnings addressed
+- Code quality improvements across all classes
+- Better error handling for UI initialization
+- Improved exception messages with i18n support
+
+### Security
+- No vulnerabilities found in updated dependencies (verified via GitHub Advisory Database)
+- SpotBugs suppression annotations properly documented
+- Enhanced input validation in SettingsDialog
+
 ## [1.1.0] - 2025-06-10
 
 ### Added
@@ -96,11 +161,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Planned Features
-- System tray integration
-- Configurable activity intervals
-- Multiple activity simulation modes
-- Logging and status reporting
-- Auto-start with system
-- Configuration file support
-- Dark mode theme
+### Future Enhancements
+- System tray integration with minimization support
+- Auto-update functionality
+- Additional language translations (French, Spanish, etc.)
+- Custom notification sounds
+- Activity logging and statistics
+- Scheduler for timed idle prevention
+- Multiple simulation profiles
