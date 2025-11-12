@@ -25,6 +25,12 @@ gui:
   # Window position (-1 means center on screen)
   window_position_x: -1
   window_position_y: -1
+  
+  # Language (en, de)
+  language: "en"
+  
+  # Theme (system, light, dark)
+  theme: "system"
 
 system:
   # System integration settings

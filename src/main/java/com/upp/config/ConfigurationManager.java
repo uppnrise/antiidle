@@ -270,6 +270,12 @@ public class ConfigurationManager {
         @JsonProperty("window_position_y")
         private int windowPositionY = -1;
         
+        @JsonProperty("language")
+        private String language = "en";
+        
+        @JsonProperty("theme")
+        private String theme = "system";
+        
         // Getters and setters
         public boolean isStartMinimized() {
             return startMinimized;
@@ -317,6 +323,22 @@ public class ConfigurationManager {
         
         public void setWindowPositionY(int windowPositionY) {
             this.windowPositionY = windowPositionY;
+        }
+        
+        public String getLanguage() {
+            return language;
+        }
+        
+        public void setLanguage(String language) {
+            this.language = language;
+        }
+        
+        public String getTheme() {
+            return theme;
+        }
+        
+        public void setTheme(String theme) {
+            this.theme = theme;
         }
     }
     

@@ -4,11 +4,11 @@ plugins {
     id 'distribution'
     id 'checkstyle'
     id 'jacoco'
-    id 'com.github.spotbugs' version '6.0.7'
+    id 'com.github.spotbugs' version '6.0.27'
 }
 
 group = 'com.upp'
-version = '1.1.0'
+version = '2.0.0'
 description = 'A Java application for preventing idle time'
 
 java {
@@ -34,19 +34,24 @@ repositories {
 
 dependencies {
     // Main dependencies
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
-    implementation 'org.slf4j:slf4j-api:2.0.7'
-    implementation 'ch.qos.logback:logback-classic:1.4.8'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2'
+    implementation 'org.slf4j:slf4j-api:2.0.16'
+    implementation 'ch.qos.logback:logback-classic:1.5.15'
+    
+    // Modern UI - FlatLaf
+    implementation 'com.formdev:flatlaf:3.5.4'
+    implementation 'com.formdev:flatlaf-intellij-themes:3.5.4'
     
     // Test dependencies
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
-    testImplementation 'org.mockito:mockito-core:5.4.0'
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
-    testImplementation 'org.awaitility:awaitility:4.2.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+    testImplementation 'org.mockito:mockito-core:5.14.2'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
+    testImplementation 'org.awaitility:awaitility:4.2.2'
     
     // SpotBugs annotations
-    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.8.6'
+    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.9.0'
 }
 
 tasks.named('test') {
@@ -116,7 +121,7 @@ distributions {
 
 // Checkstyle configuration
 checkstyle {
-    toolVersion = '10.12.1'
+    toolVersion = '10.21.1'
     configFile = file('config/checkstyle/checkstyle.xml')
     ignoreFailures = false
     maxWarnings = 0
@@ -143,7 +148,7 @@ spotbugsMain {
 
 // JaCoCo configuration
 jacoco {
-    toolVersion = '0.8.10'
+    toolVersion = '0.8.12'
 }
 
 jacocoTestReport {
