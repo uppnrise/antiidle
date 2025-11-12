@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  * Internationalization manager for AntiIdle application.
  * Handles loading and accessing localized messages.
  */
-public class I18nManager {
+public final class I18nManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(I18nManager.class);
     private static final String BUNDLE_BASE_NAME = "i18n.messages";
     
@@ -30,6 +30,10 @@ public class I18nManager {
      * 
      * @return the I18nManager instance
      */
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(
+        value = "MS_EXPOSE_REP",
+        justification = "Singleton pattern intentionally returns the same instance"
+    )
     public static synchronized I18nManager getInstance() {
         if (instance == null) {
             instance = new I18nManager();
