@@ -54,8 +54,10 @@ The **AntiIdle** project is a modern, lightweight Java application that simulate
 
 3. **Run the application:**
    ```bash
-   java -jar build/libs/antiidle-2.0.0.jar
+   java -jar build/libs/antiidle-2.0.0-all.jar
    ```
+   
+   **Note**: Use the `-all.jar` file which includes all dependencies. The regular `antiidle-2.0.0.jar` file does not include dependencies and will fail with `NoClassDefFoundError`.
 
 ### Method 2: Using Application Scripts
 
@@ -292,6 +294,11 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 **Language not changing:**
 - Restart the application after changing language settings
 - Verify the language properties files exist in resources
+
+**NoClassDefFoundError when running JAR:**
+- Use the fat JAR with all dependencies: `java -jar build/libs/antiidle-2.0.0-all.jar`
+- The regular `antiidle-2.0.0.jar` file does not include dependencies
+- Ensure you have Java 21 or higher installed: `java -version`
 
 **Mouse movements not working:**
 - Check if screen recording permissions are granted
