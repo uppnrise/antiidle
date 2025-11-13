@@ -53,6 +53,9 @@ public class AntiIdleGUI {
 
     private boolean initialized = false;
     
+    /**
+     * Constructs a new AntiIdleGUI and initializes all components.
+     */
     public AntiIdleGUI() {
         LOGGER.info("Initializing AntiIdle GUI application");
         initialized = initializeComponents();
@@ -95,10 +98,20 @@ public class AntiIdleGUI {
         }
     }
     
+    /**
+     * Checks if the application was initialized successfully.
+     * 
+     * @return true if initialized, false otherwise
+     */
     public boolean isInitialized() {
         return initialized;
     }
 
+    /**
+     * Main entry point for the application.
+     * 
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         // Set system properties for better macOS integration
         System.setProperty("java.awt.headless", "false");
@@ -439,6 +452,11 @@ public class AntiIdleGUI {
     }
 
     // Main method detection for testing
+    /**
+     * Detects if the application is running from a test context.
+     * 
+     * @return true if running from a test, false otherwise
+     */
     public static boolean isMainMethodTest() {
         try {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
