@@ -7,7 +7,7 @@
 
 The **AntiIdle** project is a modern, lightweight Java application that simulates user activity to prevent system idle sleep. It features an elegant graphical user interface (GUI) with modern FlatLaf theming, comprehensive internationalization support (English & German), and intuitive controls for managing the idle prevention service.
 
-![AntiIdle Screenshot from Mac](antiidle-mac.png)
+![AntiIdle Screenshot from Windows](antiidle-win.png)
 
 ## 🚀 Features
 
