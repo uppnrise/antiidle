@@ -28,26 +28,47 @@ import java.awt.Insets;
 public class SettingsDialog extends JDialog {
     private static final long serialVersionUID = 1L;
     
+    /** Configuration manager for loading and saving settings. */
     private final ConfigurationManager configManager;
+    /** Internationalization manager for localized messages. */
     private final I18nManager i18n;
+    /** Current configuration being edited. */
     private ConfigurationManager.AntiIdleConfig config;
+    /** Flag indicating if settings have been modified. */
     private boolean settingsChanged = false;
     
     // Activity settings
+    /** Spinner for interval seconds. */
     private JSpinner intervalSpinner;
+    /** Checkbox for mouse movement enable/disable. */
     private JCheckBox mouseEnabledCheck;
+    /** Spinner for mouse movement distance. */
     private JSpinner mouseDistanceSpinner;
+    /** Checkbox for keyboard simulation enable/disable. */
     private JCheckBox keyboardEnabledCheck;
+    /** Text field for simulation key. */
     private JTextField simulationKeyField;
+    /** Spinner for key press duration. */
     private JSpinner keyDurationSpinner;
     
     // GUI settings
+    /** Combo box for language selection. */
     private JComboBox<String> languageCombo;
+    /** Combo box for theme selection. */
     private JComboBox<String> themeCombo;
+    /** Checkbox for dark mode. */
     private JCheckBox darkModeCheck;
+    /** Checkbox for minimize to tray. */
     private JCheckBox minimizeToTrayCheck;
+    /** Checkbox for show notifications. */
     private JCheckBox showNotificationsCheck;
     
+    /**
+     * Constructs a new settings dialog.
+     * 
+     * @param parent the parent frame
+     * @param configManager the configuration manager
+     */
     public SettingsDialog(JFrame parent, ConfigurationManager configManager) {
         super(parent, true);
         this.configManager = configManager;
@@ -318,6 +339,11 @@ public class SettingsDialog extends JDialog {
             JOptionPane.INFORMATION_MESSAGE);
     }
     
+    /**
+     * Checks if settings have been changed.
+     * 
+     * @return true if settings have been changed, false otherwise
+     */
     public boolean isSettingsChanged() {
         return settingsChanged;
     }

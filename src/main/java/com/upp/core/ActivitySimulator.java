@@ -45,6 +45,8 @@ public class ActivitySimulator {
     
     /**
      * Starts the activity simulation.
+     * 
+     * @throws AntiIdleException.ActivitySimulationException if the simulation fails to start
      */
     public synchronized void startSimulation() throws AntiIdleException.ActivitySimulationException {
         if (running.get()) {
@@ -223,15 +225,30 @@ public class ActivitySimulator {
         private final boolean running;
         private final long startTime;
         
+        /**
+         * Constructs activity statistics.
+         * 
+         * @param running whether the simulation is currently running
+         */
         public ActivityStats(boolean running) {
             this.running = running;
             this.startTime = System.currentTimeMillis();
         }
         
+        /**
+         * Checks if the simulation is running.
+         * 
+         * @return true if running, false otherwise
+         */
         public boolean isRunning() {
             return running;
         }
         
+        /**
+         * Gets the start time of the statistics collection.
+         * 
+         * @return the start time in milliseconds
+         */
         public long getStartTime() {
             return startTime;
         }
