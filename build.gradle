@@ -34,10 +34,10 @@ repositories {
 
 dependencies {
     // Main dependencies
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2'
-    implementation 'org.slf4j:slf4j-api:2.0.16'
-    implementation 'ch.qos.logback:logback-classic:1.5.15'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.9'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.9'
+    implementation 'org.slf4j:slf4j-api:2.0.17'
+    implementation 'ch.qos.logback:logback-classic:1.5.36'
     
     // Modern UI - FlatLaf
     implementation 'com.formdev:flatlaf:3.5.4'
