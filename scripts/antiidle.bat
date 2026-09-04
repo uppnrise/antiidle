@@ -70,7 +70,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\jackson-core-3.2.2.jar;%APP_HOME%\lib\jackson-dataformat-yaml-3.2.2.jar;%APP_HOME%\lib\jackson-databind-3.2.2.jar;%APP_HOME%\lib\logback-classic-1.6.3.jar;%APP_HOME%\lib\slf4j-api-2.0.19.jar;%APP_HOME%\lib\flatlaf-intellij-themes-3.7.2.jar;%APP_HOME%\lib\flatlaf-3.7.2.jar;%APP_HOME%\lib\jackson-annotations-2.22.jar;%APP_HOME%\lib\snakeyaml-engine-3.0.1.jar;%APP_HOME%\lib\logback-core-1.6.3.jar;%APP_HOME%\lib\antiidle-2.0.0.jar
+set CLASSPATH=%APP_HOME%\lib\jackson-core-3.2.2.jar;%APP_HOME%\lib\jackson-dataformat-yaml-3.2.2.jar;%APP_HOME%\lib\jackson-databind-3.2.2.jar;%APP_HOME%\lib\logback-classic-1.6.3.jar;%APP_HOME%\lib\slf4j-api-2.0.19.jar;%APP_HOME%\lib\flatlaf-intellij-themes-3.7.2.jar;%APP_HOME%\lib\flatlaf-3.7.2.jar;%APP_HOME%\lib\jackson-annotations-2.22.jar;%APP_HOME%\lib\snakeyaml-engine-3.0.1.jar;%APP_HOME%\lib\logback-core-1.6.3.jar;%APP_HOME%\lib\antiidle-2.1.0.jar
 
 
 @rem Execute antiidle
