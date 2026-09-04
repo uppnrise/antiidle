@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-09-05
+
+### Changed
+- **Dependency Updates** (all to latest stable versions, including major upgrades):
+  - Jackson: 2.18.9 → 3.2.2 (new `tools.jackson` groupId; migrated `ConfigurationManager` to the Jackson 3 API)
+  - JUnit: 5.11.4 → 6.1.3 (Jupiter + Platform Launcher)
+  - Checkstyle: 10.21.1 → 14.1.0
+  - SpotBugs plugin: 6.0.27 → 6.5.11
+  - SpotBugs annotations: 4.9.0 → 4.10.4
+  - SLF4J: 2.0.17 → 2.0.19
+  - Logback: 1.5.36 → 1.6.3
+  - FlatLaf + IntelliJ themes: 3.5.4 → 3.7.2
+  - Mockito: 5.14.2 → 5.23.0
+  - Awaitility: 4.2.2 → 4.3.0
+  - JaCoCo: 0.8.12 → 0.8.15
+- Added scoped SpotBugs exclusions for new detectors introduced by the SpotBugs engine bump (`CT_CONSTRUCTOR_THROW`, `USO_UNSAFE_*_SYNCHRONIZATION`) — verified as newly-surfaced detectors on pre-existing patterns, not regressions.
+
+### Added
+- New unit tests for `AntiIdleException` and its subclasses (100% coverage of `com.upp.exception`)
+- New unit tests for `I18nManager` covering message lookup, locale switching, and fallback behavior (92.3% coverage of `com.upp.i18n`)
+- Rewrote `ActivitySimulatorTest` using `Mockito.mockConstruction(Robot.class)` for deterministic, display-independent testing (76.8% coverage of `com.upp.core`)
+- Overall test coverage raised from 18% to 28.1%
+
+### Fixed
+- SpotBugs findings introduced by the tooling upgrade, addressed via targeted exclusions or code fixes rather than suppressed broadly
+
 ## [2.0.0] - 2025-11-12
 
 ### Added

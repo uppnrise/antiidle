@@ -3,7 +3,7 @@
 [![Java](https://img.shields.io/badge/Java-21+-orange.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 [![Build](https://img.shields.io/badge/Build-Gradle-green.svg)](https://gradle.org/)
-[![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)](https://github.com/uppnrise/antiidle/releases)
+[![Version](https://img.shields.io/badge/Version-2.1.0-blue.svg)](https://github.com/uppnrise/antiidle/releases)
 
 The **AntiIdle** project is a modern, lightweight Java application that simulates user activity to prevent system idle sleep. It features an elegant graphical user interface (GUI) with modern FlatLaf theming, comprehensive internationalization support (English & German), and intuitive controls for managing the idle prevention service.
 
@@ -28,7 +28,7 @@ The **AntiIdle** project is a modern, lightweight Java application that simulate
 - **Cross-Platform**: Works on Windows, macOS, and Linux systems with Java support
 - **Lightweight**: Minimal resource usage and system impact
 - **Persistent Configuration**: Saves your preferences and window position automatically
-- **Modern Architecture**: Built with latest Java 21, Jackson 2.18, SLF4J 2.0, and Logback 1.5
+- **Modern Architecture**: Built with latest Java 21, Jackson 3.2, SLF4J 2.0, and Logback 1.6
 - **Code Quality**: Passes Checkstyle, SpotBugs, and JaCoCo quality checks
 
 ## 📋 Requirements
@@ -54,10 +54,10 @@ The **AntiIdle** project is a modern, lightweight Java application that simulate
 
 3. **Run the application:**
    ```bash
-   java -jar build/libs/antiidle-2.0.0-all.jar
+   java -jar build/libs/antiidle-2.1.0-all.jar
    ```
    
-   **Note**: Use the `-all.jar` file which includes all dependencies. The regular `antiidle-2.0.0.jar` file does not include dependencies and will fail with `NoClassDefFoundError`.
+   **Note**: Use the `-all.jar` file which includes all dependencies. The regular `antiidle-2.1.0.jar` file does not include dependencies and will fail with `NoClassDefFoundError`.
 
 ### Method 2: Using Application Scripts
 
@@ -231,7 +231,7 @@ To add support for a new language:
 Example:
 ```properties
 # messages_fr.properties
-app.title=AntiIdle v2.0.0
+app.title=AntiIdle v2.1.0
 button.start=▶ Démarrer
 button.stop=⏹ Arrêter
 status.running=▶ Prévention d'inactivité en cours
@@ -296,8 +296,8 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 - Verify the language properties files exist in resources
 
 **NoClassDefFoundError when running JAR:**
-- Use the fat JAR with all dependencies: `java -jar build/libs/antiidle-2.0.0-all.jar`
-- The regular `antiidle-2.0.0.jar` file does not include dependencies
+- Use the fat JAR with all dependencies: `java -jar build/libs/antiidle-2.1.0-all.jar`
+- The regular `antiidle-2.1.0.jar` file does not include dependencies
 - Ensure you have Java 21 or higher installed: `java -version`
 
 **Mouse movements not working:**
@@ -330,24 +330,16 @@ This application is intended for legitimate use cases such as:
 
 Please use responsibly and in accordance with your organization's policies.
 
-## 📦 What's New in v2.0.0
-
-### Major Features
-- 🎨 **Modern FlatLaf UI**: Beautiful, professional interface with Light/Dark/System themes
-- 🌐 **Internationalization**: Full English and German language support
-- ⚙️ **Comprehensive Settings**: New tabbed settings dialog for complete customization
-- 📋 **Menu System**: Organized File, Language, and Help menus
-- 💾 **Persistent Configuration**: Automatic saving of all settings and preferences
+## 📦 What's New in v2.1.0
 
 ### Technical Improvements
-- ⬆️ **Updated Dependencies**: All libraries updated to latest stable versions
-- 🔒 **Security**: No vulnerabilities (verified via GitHub Advisory Database)
+- ⬆️ **Major Dependency Upgrades**: Jackson 2→3, JUnit 5→6, Checkstyle 10→14, plus all other libraries updated to their latest stable versions
+- 🧪 **Expanded Test Coverage**: New tests for exceptions, i18n, and activity simulation raised overall coverage from 18% to 28.1%
+- 🔍 **SpotBugs Engine Upgrade**: Updated to the latest SpotBugs plugin with newly-surfaced findings addressed
 - ✅ **Code Quality**: Passes all Checkstyle, SpotBugs, and test checks
-- 📚 **Better Documentation**: Comprehensive README with examples and troubleshooting
 
-### Breaking Changes
-- Version bumped from 1.1.0 to 2.0.0
-- Configuration file format remains compatible
-- New theme and language settings in config
+### Compatibility
+- No breaking changes for end users — configuration file format remains fully compatible
+- All internal API migrations (e.g., Jackson 3) are contained within `ConfigurationManager`
 
 For complete changelog, see [CHANGELOG.md](CHANGELOG.md)
