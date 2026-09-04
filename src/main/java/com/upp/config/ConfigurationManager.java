@@ -1,10 +1,11 @@
 package com.upp.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.yaml.YAMLMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,7 +29,7 @@ public class ConfigurationManager {
      * Constructs a new ConfigurationManager and loads the configuration.
      */
     public ConfigurationManager() {
-        this.objectMapper = new ObjectMapper(new YAMLFactory());
+        this.objectMapper = new YAMLMapper();
         this.configPath = getConfigFilePath();
         this.config = loadConfiguration();
     }
@@ -53,7 +54,7 @@ public class ConfigurationManager {
                 LOGGER.info("Configuration file not found, creating default configuration");
                 return createDefaultConfiguration();
             }
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             LOGGER.error("Error loading configuration, using defaults", e);
             return createDefaultConfiguration();
         }
@@ -84,7 +85,7 @@ public class ConfigurationManager {
             objectMapper.writeValue(configPath.toFile(), config);
             this.config = config;
             LOGGER.info("Configuration saved to: {}", configPath);
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             LOGGER.error("Error saving configuration", e);
         }
     }
@@ -99,7 +100,7 @@ public class ConfigurationManager {
         try {
             String json = objectMapper.writeValueAsString(config);
             return objectMapper.readValue(json, AntiIdleConfig.class);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             LOGGER.warn("Failed to create defensive copy, returning original", e);
             return config;
         }
@@ -116,7 +117,7 @@ public class ConfigurationManager {
             String json = objectMapper.writeValueAsString(newConfig);
             this.config = objectMapper.readValue(json, AntiIdleConfig.class);
             saveConfiguration(this.config);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             LOGGER.error("Failed to update configuration", e);
             throw new RuntimeException("Configuration update failed", e);
         }

@@ -1,8 +1,8 @@
 package com.upp.security;
 
 import ch.qos.logback.classic.Logger;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.ObjectMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,11 +13,11 @@ class DependencyVersionTest {
 
     @Test
     void usesPatchedJacksonDatabindVersion() {
-        assertEquals("2.18.9", ObjectMapper.class.getPackage().getImplementationVersion());
+        assertEquals("3.2.2", ObjectMapper.class.getPackage().getImplementationVersion());
     }
 
     @Test
     void usesPatchedLogbackVersion() {
-        assertEquals("1.5.36", Logger.class.getPackage().getImplementationVersion());
+        assertEquals("1.6.3", Logger.class.getPackage().getImplementationVersion());
     }
 }
