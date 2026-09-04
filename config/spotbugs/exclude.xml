@@ -51,4 +51,23 @@
         <Class name="com.upp.core.ActivitySimulator"/>
         <Bug pattern="CT_CONSTRUCTOR_THROW"/>
     </Match>
+
+    <!-- New in SpotBugs engine 4.10.x: constructor delegates to config
+         loading, which is already defensively handled internally. -->
+    <Match>
+        <Class name="com.upp.config.ConfigurationManager"/>
+        <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+    </Match>
+
+    <!-- New in SpotBugs engine 4.10.x: pre-existing singleton locking
+         pattern flagged by newer synchronization detectors. -->
+    <Match>
+        <Class name="com.upp.i18n.I18nManager"/>
+        <Bug pattern="USO_UNSAFE_METHOD_SYNCHRONIZATION"/>
+    </Match>
+
+    <Match>
+        <Class name="com.upp.i18n.I18nManager"/>
+        <Bug pattern="USO_UNSAFE_STATIC_METHOD_SYNCHRONIZATION"/>
+    </Match>
 </FindBugsFilter>
