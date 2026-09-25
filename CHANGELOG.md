@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-09-25
+
+### Security
+- Upgraded Jackson (`jackson-databind`, `jackson-dataformat-yaml`) 3.2.2 → 3.2.3, fixing high/medium severity "Allocation of Resources Without Limits or Throttling" (CWE-770) issues flagged in `jackson-core`, `jackson-databind`, and their transitive usage.
+
 ## [2.1.0] - 2026-09-05
 
 ### Changed
