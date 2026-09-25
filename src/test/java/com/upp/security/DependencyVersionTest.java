@@ -13,7 +13,7 @@ class DependencyVersionTest {
 
     @Test
     void usesPatchedJacksonDatabindVersion() {
-        assertEquals("3.2.2", ObjectMapper.class.getPackage().getImplementationVersion());
+        assertEquals("3.2.3", ObjectMapper.class.getPackage().getImplementationVersion());
     }
 
     @Test
