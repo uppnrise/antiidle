@@ -135,7 +135,8 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          artifacts/build/libs/*.jar
-          artifacts/build/distributions/*.zip
+          artifacts/libs/*.jar
+          artifacts/distributions/*.zip
+          artifacts/distributions/*.tar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
