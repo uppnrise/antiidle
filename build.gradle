@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.upp'
-version = '2.1.0'
+version = '2.1.1'
 description = 'A Java application for preventing idle time'
 
 java {
@@ -37,8 +37,8 @@ dependencies {
     // NOTE: Jackson 3.x uses the new 'tools.jackson' groupId/package (com.fasterxml.jackson.* is
     // Jackson 2.x). jackson-annotations stays on the com.fasterxml.jackson.core groupId and is
     // pulled in transitively by jackson-databind.
-    implementation 'tools.jackson.core:jackson-databind:3.2.2'
-    implementation 'tools.jackson.dataformat:jackson-dataformat-yaml:3.2.2'
+    implementation 'tools.jackson.core:jackson-databind:3.2.3'
+    implementation 'tools.jackson.dataformat:jackson-dataformat-yaml:3.2.3'
     implementation 'org.slf4j:slf4j-api:2.0.19'
     implementation 'ch.qos.logback:logback-classic:1.6.3'
     
