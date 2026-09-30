@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-09-30
+
 ### Added
 - `jpackage` Gradle task that builds a native installer (Windows `.exe`/`.msi`, macOS `.dmg`, Linux `.deb`/`.rpm`) bundling its own Java runtime
 - `Native Installers` workflow that builds Windows/macOS/Linux installers only on published releases or manual runs, and attaches them to GitHub releases
@@ -204,6 +206,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Smart mouse movement that doesn't interfere with user activity
 
 ## [Unreleased]
+
+## [2.2.0] - 2026-09-30
 
 ### Future Enhancements
 - System tray integration with minimization support
