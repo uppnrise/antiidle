@@ -39,6 +39,19 @@ The **AntiIdle** project is a modern, lightweight Java application that simulate
 
 ## 🛠️ Installation & Usage
 
+### Method 0: Windows Installer (no Java required)
+
+Download `AntiIdle-<version>.exe` from the [Releases](https://github.com/uppnrise/antiidle/releases) page and run it. The installer bundles its own Java runtime and adds Start Menu/desktop shortcuts.
+
+To build an installer yourself (must be run on the target OS; the Windows `.exe` needs the [WiX Toolset](https://wixtoolset.org/) installed):
+
+```bash
+./gradlew jpackage                      # exe on Windows, dmg on macOS, deb on Linux
+./gradlew jpackage -PpackageType=msi    # other types: exe, msi, dmg, pkg, deb, rpm, app-image
+```
+
+The result is written to `build/jpackage/installer/`. To use a custom icon, place `antiidle.ico` (Windows), `antiidle.icns` (macOS) or `antiidle.png` (Linux) in a `packaging/` directory.
+
 ### Method 1: Using Pre-built JAR
 
 1. **Clone the repository:**

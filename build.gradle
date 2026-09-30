@@ -225,6 +225,75 @@ tasks.register('createStartScripts', CreateStartScripts) {
     }
 }
 
+// Native installer via jpackage (bundles a trimmed JRE, no Java install needed).
+// Must run on the target OS: Windows -> exe, macOS -> dmg, Linux -> deb.
+// Override with -PpackageType=msi|exe|dmg|pkg|deb|rpm|app-image
+tasks.register('jpackage') {
+    group = 'distribution'
+    description = 'Creates a native installer that bundles its own Java runtime'
+    dependsOn fatJar
+
+    def osName = System.getProperty('os.name').toLowerCase()
+    def packageType = project.findProperty('packageType') ?: (
+        osName.contains('win') ? 'exe' : osName.contains('mac') ? 'dmg' : 'deb')
+    def inputDir = layout.buildDirectory.dir('jpackage/input')
+    def outputDir = layout.buildDirectory.dir('jpackage/installer')
+    def launcher = javaToolchains.launcherFor(java.toolchain)
+    def fatJarFile = fatJar.archiveFile
+    def appVersion = project.version.toString()
+    def mainClassName = application.mainClass.get()
+    def jvmArgs = application.applicationDefaultJvmArgs
+
+    doFirst {
+        def input = inputDir.get().asFile
+        delete input, outputDir
+        copy {
+            from fatJarFile
+            into input
+        }
+
+        def jpackageBin = launcher.get().metadata.installationPath.file(
+            osName.contains('win') ? 'bin/jpackage.exe' : 'bin/jpackage').asFile
+        def cmd = [
+            jpackageBin.absolutePath,
+            '--type', packageType,
+            '--name', 'AntiIdle',
+            '--app-version', appVersion,
+            '--vendor', 'Burhanettin Nacar',
+            '--description', project.description,
+            '--copyright', 'MIT License',
+            '--input', input.absolutePath,
+            '--main-jar', fatJarFile.get().asFile.name,
+            '--main-class', mainClassName,
+            '--dest', outputDir.get().asFile.absolutePath,
+            '--add-modules', 'java.desktop,java.logging,java.management,java.naming,java.prefs,java.xml,jdk.unsupported'
+        ]
+        jvmArgs.each { cmd += ['--java-options', it] }
+
+        if (packageType != 'app-image') {
+            cmd += ['--license-file', file('LICENSE.md').absolutePath]
+        }
+
+        if (packageType == 'app-image') {
+            // installer-only options below do not apply
+        } else if (osName.contains('win')) {
+            cmd += ['--win-menu', '--win-shortcut', '--win-dir-chooser',
+                    '--win-upgrade-uuid', '6f1d3c1e-8a52-4b3e-9d43-5c7a2e0b9f14']
+        } else if (osName.contains('linux')) {
+            cmd += ['--linux-shortcut']
+        }
+
+        def iconFile = file(osName.contains('win') ? 'packaging/antiidle.ico'
+            : osName.contains('mac') ? 'packaging/antiidle.icns' : 'packaging/antiidle.png')
+        if (iconFile.exists()) {
+            cmd += ['--icon', iconFile.absolutePath]
+        }
+
+        logger.lifecycle("Running: ${cmd.join(' ')}")
+        exec { commandLine cmd }
+    }
+}
+
 // Ensure fat JAR is built with main build
 build.dependsOn fatJar
 distZip.dependsOn createStartScripts
