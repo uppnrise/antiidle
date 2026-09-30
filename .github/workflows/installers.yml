@@ -1,0 +1,71 @@
+name: Native Installers
+
+# Kept out of the regular CI to save runner minutes: only runs for
+# published releases or when started manually from the Actions tab.
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  installer:
+    name: Installer (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            type: exe
+            pattern: '*.exe'
+          - os: macos-latest
+            type: dmg
+            pattern: '*.dmg'
+          - os: ubuntu-latest
+            type: deb
+            pattern: '*.deb'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK and Gradle
+      uses: actions/setup-java@v4
+      with:
+        java-version: 21
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Build installer with jpackage
+      shell: bash
+      run: ./gradlew jpackage -PpackageType=${{ matrix.type }}
+
+    - name: Upload installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: installer-${{ matrix.type }}
+        path: build/jpackage/installer/${{ matrix.pattern }}
+
+  attach-to-release:
+    name: Attach installers to release
+    runs-on: ubuntu-latest
+    needs: installer
+    if: github.event_name == 'release'
+    permissions:
+      contents: write
+
+    steps:
+    - name: Download installers
+      uses: actions/download-artifact@v4
+      with:
+        pattern: installer-*
+        path: installers
+        merge-multiple: true
+
+    - name: Upload release assets
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release upload "${{ github.event.release.tag_name }}" installers/* --clobber --repo "${{ github.repository }}"
