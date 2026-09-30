@@ -225,6 +225,75 @@ tasks.register('createStartScripts', CreateStartScripts) {
     }
 }
 
+// Native installer via jpackage (bundles a trimmed JRE, no Java install needed).
+// Must run on the target OS: Windows -> exe, macOS -> dmg, Linux -> deb.
+// Override with -PpackageType=msi|exe|dmg|pkg|deb|rpm|app-image
+def jpackageOs = System.getProperty('os.name').toLowerCase()
+def jpackageType = project.findProperty('packageType') ?: (
+    jpackageOs.contains('win') ? 'exe' : jpackageOs.contains('mac') ? 'dmg' : 'deb')
+def jpackageInputDir = layout.buildDirectory.dir('jpackage/input')
+def jpackageOutputDir = layout.buildDirectory.dir('jpackage/installer')
+
+tasks.register('jpackageInput', Sync) {
+    description = 'Stages the fat JAR as jpackage input'
+    from fatJar
+    into jpackageInputDir
+}
+
+tasks.register('jpackage', Exec) {
+    group = 'distribution'
+    description = 'Creates a native installer that bundles its own Java runtime'
+    dependsOn 'jpackageInput'
+
+    def launcher = javaToolchains.launcherFor(java.toolchain)
+    def appDescription = project.description
+    def appVersion = project.version.toString()
+    def mainClassName = application.mainClass
+    def jvmArgs = application.applicationDefaultJvmArgs
+    def fatJarName = tasks.named('fatJar', Jar).flatMap { it.archiveFileName }
+    def licenseFile = file('LICENSE.md')
+    def iconFile = file(jpackageOs.contains('win') ? 'packaging/antiidle.ico'
+        : jpackageOs.contains('mac') ? 'packaging/antiidle.icns' : 'packaging/antiidle.png')
+
+    doFirst {
+        jpackageOutputDir.get().asFile.deleteDir()
+
+        def cmd = [
+            '--type', jpackageType,
+            '--name', 'AntiIdle',
+            '--app-version', appVersion,
+            '--vendor', 'Burhanettin Nacar',
+            '--description', appDescription,
+            '--copyright', 'MIT License',
+            '--input', jpackageInputDir.get().asFile.absolutePath,
+            '--main-jar', fatJarName.get(),
+            '--main-class', mainClassName.get(),
+            '--dest', jpackageOutputDir.get().asFile.absolutePath,
+            '--add-modules', 'java.desktop,java.logging,java.management,java.naming,java.prefs,java.xml,jdk.unsupported'
+        ]
+        jvmArgs.each { cmd += ['--java-options', it] }
+
+        // Installer-only options are rejected by jpackage for app-image
+        if (jpackageType != 'app-image') {
+            cmd += ['--license-file', licenseFile.absolutePath]
+            if (jpackageOs.contains('win')) {
+                cmd += ['--win-menu', '--win-shortcut', '--win-dir-chooser',
+                        '--win-upgrade-uuid', '6f1d3c1e-8a52-4b3e-9d43-5c7a2e0b9f14']
+            } else if (jpackageOs.contains('linux')) {
+                cmd += ['--linux-shortcut']
+            }
+        }
+
+        if (iconFile.exists()) {
+            cmd += ['--icon', iconFile.absolutePath]
+        }
+
+        executable = launcher.get().metadata.installationPath.file(
+            jpackageOs.contains('win') ? 'bin/jpackage.exe' : 'bin/jpackage').asFile.absolutePath
+        args cmd
+    }
+}
+
 // Ensure fat JAR is built with main build
 build.dependsOn fatJar
 distZip.dependsOn createStartScripts
