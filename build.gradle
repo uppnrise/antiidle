@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.upp'
-version = '2.1.1'
+version = '2.2.0'
 description = 'A Java application for preventing idle time'
 
 java {
