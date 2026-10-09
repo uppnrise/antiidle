@@ -1,0 +1,41 @@
+name: CI Hunter Analysis
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: uppnrise/ci-hunter
+          ref: e0310acc22e8221d1dfcf5d89c3dccc44a76102e
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.11"
+
+      - name: Install CI Hunter
+        run: |
+          python -m pip install --require-hashes -r requirements-dev.txt
+          python -m pip install --no-deps --no-build-isolation -e .
+
+      - name: Analyze this repository
+        env:
+          TARGET_REPO: ${{ github.repository }}
+          GITHUB_APP_ID: ${{ secrets.GITHUB_APP_ID }}
+          GITHUB_INSTALLATION_ID: ${{ secrets.GITHUB_INSTALLATION_ID }}
+          GITHUB_PRIVATE_KEY_PEM: ${{ secrets.GITHUB_PRIVATE_KEY_PEM }}
+        run: |
+          ci-hunter \
+            --repo "$TARGET_REPO" \
+            --dry-run \
+            --timings-run-limit 10 \
+            --min-history 3 \
+            --format md \
+            --output-file report.md
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
