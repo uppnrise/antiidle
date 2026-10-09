@@ -27,9 +27,9 @@ jobs:
       - name: Analyze this repository
         env:
           TARGET_REPO: ${{ github.repository }}
-          GITHUB_APP_ID: ${{ secrets.GITHUB_APP_ID }}
-          GITHUB_INSTALLATION_ID: ${{ secrets.GITHUB_INSTALLATION_ID }}
-          GITHUB_PRIVATE_KEY_PEM: ${{ secrets.GITHUB_PRIVATE_KEY_PEM }}
+          GITHUB_APP_ID: ${{ secrets.CI_HUNTER_APP_ID }}
+          GITHUB_INSTALLATION_ID: ${{ secrets.CI_HUNTER_INSTALLATION_ID }}
+          GITHUB_PRIVATE_KEY_PEM: ${{ secrets.CI_HUNTER_PRIVATE_KEY_PEM }}
         run: |
           ci-hunter \
             --repo "$TARGET_REPO" \
