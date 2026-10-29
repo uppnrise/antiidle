@@ -23,8 +23,8 @@
 @rem
 @rem ##########################################################################
 
-@rem Set local scope for the variables with windows NT shell
-if "%OS%"=="Windows_NT" setlocal
+@rem Set local scope for the variables, and ensure extensions are enabled
+setlocal EnableExtensions
 
 set DIRNAME=%~dp0
 if "%DIRNAME%"=="" set DIRNAME=.
@@ -45,13 +45,14 @@ set JAVA_EXE=java.exe
 %JAVA_EXE% -version >NUL 2>&1
 if %ERRORLEVEL% equ 0 goto execute
 
-echo. 1>&2
-echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH. 1>&2
-echo. 1>&2
-echo Please set the JAVA_HOME variable in your environment to match the 1>&2
-echo location of your Java installation. 1>&2
+1>&2 echo.
+1>&2 echo ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
+1>&2 echo.
+1>&2 echo Please set the JAVA_HOME variable in your environment to match the
+1>&2 echo location of your Java installation.
 
-goto fail
+"%COMSPEC%" /c exit 1
+goto exitWithErrorLevel
 
 :findJavaFromJavaHome
 set JAVA_HOME=%JAVA_HOME:"=%
@@ -59,36 +60,27 @@ set JAVA_EXE=%JAVA_HOME%/bin/java.exe
 
 if exist "%JAVA_EXE%" goto execute
 
-echo. 1>&2
-echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME% 1>&2
-echo. 1>&2
-echo Please set the JAVA_HOME variable in your environment to match the 1>&2
-echo location of your Java installation. 1>&2
+1>&2 echo.
+1>&2 echo ERROR: JAVA_HOME is set to an invalid directory: %JAVA_HOME%
+1>&2 echo.
+1>&2 echo Please set the JAVA_HOME variable in your environment to match the
+1>&2 echo location of your Java installation.
 
-goto fail
+"%COMSPEC%" /c exit 1
+goto exitWithErrorLevel
 
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\jackson-core-3.2.2.jar;%APP_HOME%\lib\jackson-dataformat-yaml-3.2.2.jar;%APP_HOME%\lib\jackson-databind-3.2.2.jar;%APP_HOME%\lib\logback-classic-1.6.3.jar;%APP_HOME%\lib\slf4j-api-2.0.19.jar;%APP_HOME%\lib\flatlaf-intellij-themes-3.7.2.jar;%APP_HOME%\lib\flatlaf-3.7.2.jar;%APP_HOME%\lib\jackson-annotations-2.22.jar;%APP_HOME%\lib\snakeyaml-engine-3.0.1.jar;%APP_HOME%\lib\logback-core-1.6.3.jar;%APP_HOME%\lib\antiidle-2.1.0.jar
+set CLASSPATH=%APP_HOME%\lib\jackson-core-3.2.4.jar;%APP_HOME%\lib\jackson-dataformat-yaml-3.2.4.jar;%APP_HOME%\lib\jackson-databind-3.2.4.jar;%APP_HOME%\lib\logback-classic-1.6.5.jar;%APP_HOME%\lib\slf4j-api-2.0.19.jar;%APP_HOME%\lib\flatlaf-intellij-themes-3.7.2.jar;%APP_HOME%\lib\flatlaf-3.7.2.jar;%APP_HOME%\lib\jackson-annotations-2.22.jar;%APP_HOME%\lib\snakeyaml-engine-3.0.1.jar;%APP_HOME%\lib\logback-core-1.6.5.jar;%APP_HOME%\lib\antiidle-2.2.1.jar
 
 
 @rem Execute antiidle
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %ANTIIDLE_OPTS%  -classpath "%CLASSPATH%" com.upp.AntiIdleGUI %*
+@rem endlocal doesn't take effect until after the line is parsed and variables are expanded
+@rem which allows us to clear the local environment before executing the java command
+endlocal & "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %ANTIIDLE_OPTS%  -classpath "%CLASSPATH%" com.upp.AntiIdleGUI %* & call :exitWithErrorLevel & goto exitWithErrorLevel
 
-:end
-@rem End local scope for the variables with windows NT shell
-if %ERRORLEVEL% equ 0 goto mainEnd
-
-:fail
-rem Set variable ANTIIDLE_EXIT_CONSOLE if you need the _script_ return code instead of
-rem the _cmd.exe /c_ return code!
-set EXIT_CODE=%ERRORLEVEL%
-if %EXIT_CODE% equ 0 set EXIT_CODE=1
-if not ""=="%ANTIIDLE_EXIT_CONSOLE%" exit %EXIT_CODE%
-exit /b %EXIT_CODE%
-
-:mainEnd
-if "%OS%"=="Windows_NT" endlocal
-
-:omega
+@rem This label must not be changed. We rely on old scripts being able to jump to this point.
+:exitWithErrorLevel
+@rem Use "%COMSPEC%" /c exit to allow operators to work properly in scripts
+"%COMSPEC%" /c exit %ERRORLEVEL%

@@ -13,11 +13,11 @@ class DependencyVersionTest {
 
     @Test
     void usesPatchedJacksonDatabindVersion() {
-        assertEquals("3.2.3", ObjectMapper.class.getPackage().getImplementationVersion());
+        assertEquals("3.2.4", ObjectMapper.class.getPackage().getImplementationVersion());
     }
 
     @Test
     void usesPatchedLogbackVersion() {
-        assertEquals("1.6.3", Logger.class.getPackage().getImplementationVersion());
+        assertEquals("1.6.5", Logger.class.getPackage().getImplementationVersion());
     }
 }
