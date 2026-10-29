@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.1] - 2026-10-29
+
+### Security
+- Upgrade Jackson Databind and YAML from 3.2.3 to 3.2.4 to fix CWE-502 deserialization vulnerability.
+- Upgrade Logback Classic from 1.6.3 to 1.6.5 to fix directory traversal vulnerability.
+
 ## [2.2.0] - 2026-09-30
 
 ### Added
